@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cassio.test</groupId>
+	<artifactId>multisearchtest</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>nz.ac.waikato.cms.weka</groupId>
+			<artifactId>weka-dev</artifactId>
+			<version>3.7.13</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.fracpete</groupId>
+			<artifactId>multisearch-weka-package</artifactId>
+			<version>2016.4.30</version>
+			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>nz.ac.waikato.cms.weka</groupId>
+					<artifactId>weka-dev</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${project.build.directory}/classes</targetPath>
+				<includes>
+					<include>UCI/</include>
+					<include>numeric/</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
