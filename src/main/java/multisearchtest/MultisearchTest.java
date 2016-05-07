@@ -16,13 +16,11 @@ public class MultisearchTest {
 
     private static Random rng = new Random(42);
 
-    public void start() throws Exception {
+    public J48 searchParams() throws Exception {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(this.getClass().getResourceAsStream("/UCI/breast-cancer.arff")));
         Instances data = new Instances(reader);
         reader.close();
-
-        System.out.println(data);
 
         data.setClassIndex(data.numAttributes() - 1);
 
@@ -63,27 +61,19 @@ public class MultisearchTest {
         multi.setAlgorithm(new DefaultSearch());
         multi.buildClassifier(data);
 
-        System.out.println(multi.getBestClassifier());
+        J48 bestClassifier = (J48) multi.getBestClassifier();
 
-        // Point<Object> bestValues = multi.getBestValues();
+        System.out.println("Best Parameters found (optimized for AUC): ");
+        System.out.println(String.format("conf factor: %.2f", bestClassifier.getConfidenceFactor()));
+        System.out.println(String.format("minNumObj: %d", bestClassifier.getMinNumObj()));
 
-        // double confFactor = (Double) multi.getValues().getValue(0);
-        // double minObj = (Double) multi.getValues().getValue(1);
+        bestClassifier.buildClassifier(data);
 
-        // System.out.println("I found confFactor = " + confFactor + " and minNumObj = " + minObj);
-
-        // J48 bestClassifier = new J48();
-        // bestClassifier.setConfidenceFactor((float) confFactor);
-        // bestClassifier.setMinNumObj((int) minObj);
-        // bestClassifier.setSeed(rng.nextInt());
-        //
-        // bestClassifier.buildClassifier(data);
-        // return bestClassifier;
-
+        return bestClassifier;
     }
 
     public static void main(String[] args) throws Exception {
-        new MultisearchTest().start();
+        new MultisearchTest().searchParams();
     }
 
 }
